@@ -2,7 +2,7 @@
 
 This fork has been updated to work with Python 3 and clang 10. 
 
-it has only been tested in the limited use case I have for it, so YMMV.
+It has only been tested in the limited use case I have for it, so YMMV.
 
 It assumes libclang.so (for clang 10) is in the repo's root folder (either a copy or link). I might have included my copy (for Ubuntu) in the repo.
 
