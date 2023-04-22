@@ -2,7 +2,7 @@ from cfg import CFG
 from clang.cindex import *
 from decorators.concrete_node_decorators import *
 
-Config.set_library_path('/usr/lib/llvm-4.0/lib')
+Config.set_library_path('.')
 
 
 def buildAST(cfile):

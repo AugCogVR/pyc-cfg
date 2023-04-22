@@ -93,8 +93,8 @@ class GenericDecorator(AstNodeDecorator):
                     i = IndirectGoToStmt(c)
                     vect.push_back(i)
                 else:
-                    print "WARNING: unknown statement:  " + str(c.kind)
-                    print "         added as generic statement"
+                    print("WARNING: unknown statement:  " + str(c.kind))
+                    print("         added as generic statement")
                     s = Stmt(c, type_stmt.NONE)    # UNKNOWN STMT
                     vect.push_back(s)
 
@@ -217,7 +217,7 @@ class GenericDecorator(AstNodeDecorator):
                 vect.push_back(l)
 
             else:
-                print "ERROR: unknown cursor:  " + str(c.kind)
+                print("ERROR: unknown cursor:  " + str(c.kind))
 
         return vect
 
@@ -462,12 +462,12 @@ class ForStmt(Stmt):
         index = 0
         tokens = super(ForStmt, self).get_tokens()
         it = super(ForStmt, self).get_tokens()
-        it.next()
+        next(it)
 
         for i in tokens:
 
             try:
-                nextToken = it.next()
+                nextToken = next(it)
             except StopIteration:
                 pass
             if (index == 0):
@@ -796,8 +796,8 @@ class GoToStmt(Stmt):
 
     def getLabel(self):
         t = super(GoToStmt, self).get_tokens()
-        t.next()
-        return str(t.next().spelling)
+        next(t)
+        return str(next(t).spelling)
 
 
 # ------------------------------------------
@@ -897,11 +897,11 @@ class VarDecl(Decl):
         if(self.specific_kind == type_stmt.ARRAY):
             it = super(Decl, self).get_tokens()
             val = ""
-            val += str(it.next().spelling) + " "
-            val += str(it.next().spelling)
-            val += str(it.next().spelling)
-            val += str(it.next().spelling)
-            val += str(it.next().spelling)
+            val += str(next(it).spelling) + " "
+            val += str(next(it).spelling)
+            val += str(next(it).spelling)
+            val += str(next(it).spelling)
+            val += str(next(it).spelling)
             val += ';'
             return val
         else:
@@ -984,13 +984,13 @@ class VarDecl(Decl):
                 return val[0]
 
         elif(self.specific_kind == type_stmt.POINTER):
-            tok.next()
-            tok.next()
-            return str(tok.next().spelling)
+            next(tok)
+            next(tok)
+            return str(next(tok).spelling)
         elif(self.specific_kind == type_stmt.ARRAY):
             return self.get_cursor().spelling
         else:
-            print "ERROR: Uknown Variable kind"
+            print("ERROR: Uknown Variable kind")
             return str(None)
 
     def getBaseTypeBytesSize(self):
@@ -1145,13 +1145,13 @@ class IntLiteral(GenericDecorator):
 
         value = super(IntLiteral, self).get_tokens()
         try:
-            c = str(value.next().spelling)
+            c = str(next(value).spelling)
         except StopIteration:
             # Error parsing the integer
             c = '-999999'
 
         if(c == '-'):
-            c += str(value.next().spelling)
+            c += str(next(value).spelling)
             return int(c)
         else:
             try:
@@ -1207,7 +1207,7 @@ class FloatingLiteral(GenericDecorator):
         :return: int
         """
         value = super(FloatingLiteral, self).get_tokens()
-        return float(str(value.next().spelling))
+        return float(str(next(value).spelling))
 
     def value(self):
         return self._value
@@ -1278,7 +1278,7 @@ class CharacterLiteral(GenericDecorator):
         """
         value = super(CharacterLiteral, self).get_tokens()
         try:
-            return str(value.next().spelling)
+            return str(next(value).spelling)
         except StopIteration:
             return 'value error: char literal'
 
@@ -1884,10 +1884,10 @@ class AddrLabelExpr(GenericDecorator):
 
     def parse_value(self):
         value = super(AddrLabelExpr, self).get_tokens()
-        v = str(value.next().spelling)
+        v = str(next(value).spelling)
         # handling special case of indirect goto
         if(v == "&&"):
-            return str(value.next().spelling)
+            return str(next(value).spelling)
         else:
             return v
 
